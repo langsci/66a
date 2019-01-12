@@ -145,12 +145,17 @@
 
 % example metadata
 
-\newcommand{\langinfo}[3]{{\upshape #1\il{#1}~(%
+\newcommand{\langinfo}[3]{{\upshape #1\il{#1}%
+\ifx\\#3\\%
+\else%
+~(%
 \ifx\\#2\\%
 \else%
 #2;
 \fi%
-#3)}\nopagebreak[4]\ignorespaces}
+#3)
+\fi%
+}\nopagebreak[4]\ignorespaces}
 
  
 \newcommand{\fittable}[1]{\resizebox{\textwidth}{!}{#1}}

@@ -1,9 +1,7 @@
-\documentclass[output=book,nonflat,modfonts,smallfont,
-  colorlinks,citecolor=brown,
-%  draft,draftmode,
-%   showindex
-		  ]{langsci/langscibook}     
-  
+\documentclass[output=book,nonflat,modfonts,
+  colorlinks,citecolor=brown
+% showindex
+		  ]{langsci/langscibook}    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%          additional packages                 %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -28,7 +26,14 @@
 {\sloppy\tableofcontents}
 % \include{chapters/preface}
 \include{chapters/acknowledgments}
-\include{chapters/abbreviations} 
+\include{chapters/abbreviations}
+
+% %% Add lists of figures or tables?
+% \addcontentsline{toc}{chapter}{List of Maps and Figures}
+% \listoffigures
+% \addcontentsline{toc}{chapter}{List of Tables}
+% \listoftables
+
 \mainmatter     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%             Chapters                         %%%
@@ -45,19 +50,19 @@
 \include{chapters/07} 
 \include{chapters/08} 
 \include{chapters/09} 
-\include{chapters/10} %table 1 needs tikz
+\include{chapters/10}
 \include{chapters/11} 
 \include{chapters/12} 
 \include{chapters/13} 
 \include{chapters/14} 
 \include{chapters/texts} 
-\include{chapters/vocabulary} 
+\include{chapters/vocabulary} % contains manual pagebreaks to keep letter headings from bottom of page
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%             Backmatter                       %%%%%%                                              %%%
+%%%             Backmatter                       %%%    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \input{localseealso.tex} 
-% There is normally no need to change the backmatter section
+\sloppy 
+% \input{localseealso.tex}  
 \input{backmatter.tex} 
 \end{document} 

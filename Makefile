@@ -3,7 +3,9 @@ SOURCE=  main.tex $(wildcard local*.tex) $(wildcard chapters/*.tex)
 
 # specify your main target here:
 pdf: main.bbl main.pdf  #by the time main.pdf, bib assures there is a newer aux file
- 
+
+all: pod cover
+
 complete: index main.pdf
 
 index:  main.snd
@@ -25,12 +27,6 @@ main.snd: main.bbl
 	sed -i s/.*\\emph.*// main.adx #remove titles which biblatex puts into the name index
 	sed -i 's/hyperindexformat{\\\(infn {[0-9]*\)}/\1/' main.sdx # ordering of references to footnotes
 	sed -i 's/hyperindexformat{\\\(infn {[0-9]*\)}/\1/' main.adx
-	sed -i 's/.*Office.*/\1/' main.adx
-	sed -i 's/.*Team.*/\1/' main.adx
-	sed -i 's/.*Bureau.*/\1/' main.adx
-	sed -i 's/.*Organisation.*/\1/' main.adx
-	sed -i 's/.*Embassy.*/\1/' main.adx
-	sed -i 's/.*Commission.*/\1/' main.adx
 	sed -i 's/hyperindexformat{\\\(infn {[0-9]*\)}/\1/' main.ldx
 # 	python3 fixindex.py
 # 	mv mainmod.adx main.adx
@@ -51,14 +47,14 @@ cover: FORCE
 
 googlebooks: googlebooks_interior.pdf
 
-googlebooks_interior.pdf: 
+googlebooks_interior.pdf: complete
 	cp main.pdf googlebooks_interior.pdf
 	pdftk main.pdf cat 1 output googlebooks_frontcover.pdf 
 
 openreview: openreview.pdf
 	
 
-openreview.pdf: 
+openreview.pdf: main.pdf
 	pdftk main.pdf multistamp orstamp.pdf output openreview.pdf 
 
 proofreading: proofreading.pdf
@@ -69,7 +65,7 @@ githubrepo: localmetadata.tex proofreading versions.json
 	cp proofreading.pdf Makefile versions.json `cat ID`
 	mv `cat ID` ..
 	
-versions.json: 
+versions.json: localmetadata.tex
 	grep "^.title{" localmetadata.tex|grep -o "{.*"|egrep -o "[^{}]+">title
 	grep "^.author{" localmetadata.tex|grep -o "{.*"|egrep -o "[^{}]+" |sed 's/\\\(last\)\?and/"},{"name":"/g'>author
 	echo -n '{ "versions": [{ "versiontype": "proofreading", "title": "'>versions.json
@@ -81,16 +77,18 @@ versions.json:
 	echo -n '"}]}'>> versions.json
 	rm author title
 	
-paperhive:  
+paperhive: versions.json	
 	git branch gh-pages
 	git checkout gh-pages
 	git add proofreading.pdf versions.json
 	git commit -m 'prepare for proofreading' proofreading.pdf versions.json
 	git push origin gh-pages
-	grep lsID localmetadata.tex |egrep -o "[0-9]*" > ID
-	sleep 3
-	curl -X POST 'https://paperhive.org/api/document-items/remote?type=langsci&id='`cat ID`
 	git checkout master 
+	echo "langsci.github.io/BOOKID"
+	firefox https://paperhive.org/documents/new	
+	cd ..
+	mv `cat ID` ..
+	rm ID 
 	
 proofreading.pdf:
 	pdftk main.pdf multistamp prstamp.pdf output proofreading.pdf 
@@ -116,7 +114,7 @@ clean:
 	*.adx *.and *.idx *.ind *.ldx *.lnd *.sdx *.snd *.rdx *.rnd *.wdx *.wnd \
 	*.log *.blg *.ilg \
 	*.aux *.toc *.cut *.out *.tpm *.bbl *-blx.bib *_tmp.bib *bcf \
-	*.glg *.glo *.gls *.wrd *.wdv *.xdv *.mw *.clr *.pgs\
+	*.glg *.glo *.gls *.wrd *.wdv *.xdv *.mw *.clr \
 	*.run.xml \
 	chapters/*aux chapters/*~ chapters/*.bak chapters/*.backup\
 	langsci/*/*aux langsci/*/*~ langsci/*/*.bak langsci/*/*.backup
@@ -136,5 +134,6 @@ barechapters:
 languagecandidates:
 	egrep -oh "[a-z] [A-Z][a-z]+" chapters/*tex| grep -o  [A-Z].* |sort -u >languagelist.txt
 
+ 
 
 FORCE:
