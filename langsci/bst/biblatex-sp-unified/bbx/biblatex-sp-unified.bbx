@@ -328,9 +328,9 @@
   \iflistundef{institution}
     {}
     {\setunit*{\addcolon\space}}%
-  \printlist{institution}%
-  \setunit{\addspace}%
   \printfield{type}%
+  \setunit*{\addcomma\addspace}%
+  \printlist{institution}%
   \setunit*{\addcomma\space}%
   \usebibmacro{date}%
   \newunit}
@@ -366,7 +366,7 @@
 
 \DefineBibliographyStrings{english}{%
   edition          = {edn\adddot},
-  phdthesis        = {dissertation},
+  phdthesis        = {PhD thesis},
 }
 
 % basically everything is in sentence case, other than journals and book series (recurring titles)
