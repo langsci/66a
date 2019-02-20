@@ -1,5 +1,9 @@
 {"versions": [{"versiontype": "proofreading", 
 "title": "A Grammar of Pichi",
 "authors": [{"name": "Kofi Yakpo"}],
-"publishedAt": "2018-07-11T15:07:29.000Z"}
+"publishedAt": "2018-07-11T15:07:29.000Z"},
+{"versiontype": "first_edition", 
+"title": "A Grammar of Pichi",
+"authors": [{"name": "Kofi Yakpo"}],
+"publishedAt": "2019-02-20T15:07:29.000Z"}
 ]}
